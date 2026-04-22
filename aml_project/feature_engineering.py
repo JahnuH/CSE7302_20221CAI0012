@@ -1,1 +1,40 @@
-import pandas as pd\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler, MinMaxScaler\nfrom sklearn.decomposition import PCA\n\nclass FeatureEngineeringPipeline:\n    def __init__(self, scaling_method='standard', n_components=None):\n        self.scaling_method = scaling_method\n        self.n_components = n_components\n        self.pipeline = self.create_pipeline()\n\n    def create_pipeline(self):\n        if self.scaling_method == 'standard':\n            scaler = StandardScaler()\n        elif self.scaling_method == 'minmax':\n            scaler = MinMaxScaler()\n        else:\n            raise ValueError('Unsupported scaling method!')\n        steps = [('\n        ('scaler', scaler)]\n        if self.n_components is not None:\n            steps.append(('pca', PCA(n_components=self.n_components)))\n        return Pipeline(steps)\n\n    def fit(self, X):\n        self.pipeline.fit(X)\n\n    def transform(self, X):\n        return self.pipeline.transform(X)\n\n    def fit_transform(self, X):\n        return self.pipeline.fit_transform(X)\n\n## Usage Example:\n# fe_pipeline = FeatureEngineeringPipeline(scaling_method='minmax', n_components=2)\n# X_transformed = fe_pipeline.fit_transform(X)\n
+import pandas as pd
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.decomposition import PCA
+
+
+class FeatureEngineeringPipeline:
+    def __init__(self, scaling_method='standard', n_components=None):
+        self.scaling_method = scaling_method
+        self.n_components = n_components
+        self.pipeline = self.create_pipeline()
+
+    def create_pipeline(self):
+        if self.scaling_method == 'standard':
+            scaler = StandardScaler()
+        elif self.scaling_method == 'minmax':
+            scaler = MinMaxScaler()
+        else:
+            raise ValueError('Unsupported scaling method!')
+
+        steps = [('scaler', scaler)]
+
+        if self.n_components is not None:
+            steps.append(('pca', PCA(n_components=self.n_components)))
+
+        return Pipeline(steps)
+
+    def fit(self, X):
+        self.pipeline.fit(X)
+
+    def transform(self, X):
+        return self.pipeline.transform(X)
+
+    def fit_transform(self, X):
+        return self.pipeline.fit_transform(X)
+
+
+# Usage Example:
+# fe_pipeline = FeatureEngineeringPipeline(scaling_method='minmax', n_components=2)
+# X_transformed = fe_pipeline.fit_transform(X)
