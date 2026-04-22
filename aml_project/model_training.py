@@ -1,1 +1,36 @@
-import numpy as np\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\nfrom sklearn.svm import SVC\nfrom sklearn.metrics import accuracy_score\n\n# Load dataset\ndf = pd.read_csv('your_dataset.csv')  # Update with your dataset path\n\n# Prepare features and labels\nX = df.drop('target', axis=1)  # Update 'target' with your label column\ny = df['target']\n\n# Split the data\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# Random Forest\nrf_model = RandomForestClassifier()\nrf_model.fit(X_train, y_train)\nrf_predictions = rf_model.predict(X_test)\nprint(f'Random Forest Accuracy: {accuracy_score(y_test, rf_predictions)}')\n\n# Support Vector Machine\nsvm_model = SVC()\nsvm_model.fit(X_train, y_train)\nsvm_predictions = svm_model.predict(X_test)\nprint(f'SVM Accuracy: {accuracy_score(y_test, svm_predictions)}')\n\n# Gradient Boosting\ngb_model = GradientBoostingClassifier()\ngb_model.fit(X_train, y_train)\ngb_predictions = gb_model.predict(X_test)\nprint(f'Gradient Boosting Accuracy: {accuracy_score(y_test, gb_predictions)}')
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+df = pd.read_csv('your_dataset.csv')  # Update with your dataset path
+
+# Prepare features and labels
+X = df.drop('target', axis=1)  # Update 'target' with your label column
+y = df['target']
+
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Random Forest
+rf_model = RandomForestClassifier()
+rf_model.fit(X_train, y_train)
+rf_predictions = rf_model.predict(X_test)
+print(f"Random Forest Accuracy: {accuracy_score(y_test, rf_predictions)}")
+
+# Support Vector Machine
+svm_model = SVC()
+svm_model.fit(X_train, y_train)
+svm_predictions = svm_model.predict(X_test)
+print(f"SVM Accuracy: {accuracy_score(y_test, svm_predictions)}")
+
+# Gradient Boosting
+gb_model = GradientBoostingClassifier()
+gb_model.fit(X_train, y_train)
+gb_predictions = gb_model.predict(X_test)
+print(f"Gradient Boosting Accuracy: {accuracy_score(y_test, gb_predictions)}")
